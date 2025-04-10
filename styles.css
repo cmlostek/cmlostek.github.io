@@ -15,14 +15,12 @@ body {
 }
 
 menu {
-    background: cornflowerblue;
     color: #fff;
     padding: 10px 0;
     text-align: center;
 }
 
 .content {
-    background: lightsteelblue;
     padding: 20px;
     margin: 20px auto;
     width: 80%;
@@ -46,6 +44,15 @@ button:hover {
     background: #0056b3;
 }
 
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* spacing between icons */
+    margin-top: 5px;
+}
 
-
+.icon {
+    width: 30px;
+    height: 30px;
+}
 

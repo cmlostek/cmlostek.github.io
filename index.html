@@ -6,15 +6,16 @@
     <title>Cole's Webpage</title>
 </head>
 <body>
-<h1 class="header">Welcome to Cole's Webpage</h1>
-<h2 class = 'header'>
+<h1 class="header">Welcome to Cole's Webpage
+    <div class = social-icons>
     <a href="https://github.com/cmlostek">
-        <img src="images/github.png" alt="GitHub Logo" class="github-logo">
-        GitHub Profile
+        <img src="images/github.png" alt="GitHub Logo" class="icon">
     </a>
-
-</h2>
-<div>
+    <a href="https://www.linkedin.com/in/colemlostek/">
+        <img src="images/linkedin.png" alt="LinkedIn Logo" class="icon">
+    </a>
+    </div>
+</h1>
     <menu>
     <button onclick="showSection('about')">About Me!</button>
     <button onclick="showSection('portfolio')">Portfolio!</button>
@@ -22,14 +23,19 @@
 </menu>
 </div>
 
-<section sectionId ="about" class="content" id = 'about'>
+<section class="content" id = 'about'>
     <h2>About Me</h2>
     <p>Hi! I'm Cole, a developer with a passion for coding and technology.</p>
 </section>
 
-<section sectionId = 'portfolio' class="content" id = 'portfolio'>
+<section class="content" id = 'portfolio'>
     <h2>Portfolio</h2>
     <p>Check out my projects!</p>
+</section>
+
+<section class = "content" id = "contact">
+    <h2>Contact Me</h2>
+    <p>If you want to get in touch, feel free to reach out!</p>
 </section>
 
 <script src ='script.js'></script>
