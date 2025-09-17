@@ -38,6 +38,8 @@ const About = () => {
                 src="/pfp.jpeg" 
                 alt="Cole Mlostek" 
                 className="profile-image"
+                onLoad={() => console.log('Image loaded successfully')}
+                onError={(e) => console.log('Image failed to load:', e)}
             />
           </div>
         </div>
