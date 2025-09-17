@@ -5,26 +5,10 @@ const Projects = () => {
   const projects = [
     {
       id: 1,
-      title: "Project One",
-      description: "A brief description of your first project. Explain what it does and the technologies used.",
-      technologies: ["React", "Node.js", "MongoDB"],
-      github: "#",
-      demo: "#"
-    },
-    {
-      id: 2,
-      title: "Project Two", 
-      description: "Description of your second project. Highlight the key features and challenges solved.",
-      technologies: ["Python", "Django", "PostgreSQL"],
-      github: "#",
-      demo: "#"
-    },
-    {
-      id: 3,
-      title: "Project Three",
-      description: "Another project description. Showcase your versatility and problem-solving skills.",
-      technologies: ["JavaScript", "Express", "MySQL"],
-      github: "#",
+      title: "Restaurant Ordering API",
+      description: "Collaborative project with a group of friends to create a restaurant ordering API. We used React for the frontend and Python for the backend. This project was a part of my Software Engineering class at UNC Charlotte. We used Agile methodologies to develop the project.",
+      technologies: ["React", "Node.js", "MySQL", "Python"],
+      github: "https://github.com/cmlostek/itsc3155_GroupProject",
       demo: "#"
     }
   ];
