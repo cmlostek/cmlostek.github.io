@@ -35,7 +35,7 @@ const About = () => {
           </div>
           <div className="about-image">
             <img 
-              src="../pfp.jpeg" 
+              src="../../pfp.jpeg" 
               alt="Cole Mlostek" 
               className="profile-image"
             />
