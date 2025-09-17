@@ -34,10 +34,10 @@ const About = () => {
             </div>
           </div>
           <div className="about-image">
-            <img 
-              src="../../pfp.jpeg" 
-              alt="Cole Mlostek" 
-              className="profile-image"
+              <img 
+                src="/pfp.jpeg" 
+                alt="Cole Mlostek" 
+                className="profile-image"
             />
           </div>
         </div>
