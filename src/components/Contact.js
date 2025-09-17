@@ -20,7 +20,7 @@ const Contact = () => {
     // Handle form submission here
     console.log('Form submitted:', formData);
     // You can integrate with a service like EmailJS or your backend
-    alert('Thank you for your message! I\'ll get back to you soon.');
+    alert('Hi there! This is currently not implemented, but feel free to reach out to me via email or LinkedIn!');
     setFormData({ name: '', email: '', message: '' });
   };
 
@@ -38,18 +38,18 @@ const Contact = () => {
             <div className="contact-details">
               <div className="contact-item">
                 <strong>Email:</strong>
-                <a href="mailto:your.email@example.com">your.email@example.com</a>
+                <a href="mailto:colerm17@gmail.com">colerm17@gmail.com</a>
               </div>
               <div className="contact-item">
                 <strong>LinkedIn:</strong>
-                <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer">
-                  linkedin.com/in/yourprofile
+                <a href="https://linkedin.com/in/colemlostek" target="_blank" rel="noopener noreferrer">
+                  linkedin.com/in/colemlostek
                 </a>
               </div>
               <div className="contact-item">
                 <strong>GitHub:</strong>
-                <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer">
-                  github.com/yourusername
+                <a href="https://github.com/cmlostek" target="_blank" rel="noopener noreferrer">
+                  github.com/cmlostek
                 </a>
               </div>
             </div>

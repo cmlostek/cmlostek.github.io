@@ -10,13 +10,13 @@ const Footer = () => {
         <div className="footer-content">
           <p>&copy; {currentYear} Cole Mlostek. All rights reserved.</p>
           <div className="footer-links">
-            <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer">
+            <a href="https://github.com/cmlostek" target="_blank" rel="noopener noreferrer">
               GitHub
             </a>
-            <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer">
+            <a href="https://linkedin.com/in/colemlostek" target="_blank" rel="noopener noreferrer">
               LinkedIn
             </a>
-            <a href="mailto:your.email@example.com">
+            <a href="mailto:your.colerm17@gmail.com">
               Email
             </a>
           </div>
