@@ -15,7 +15,7 @@ section {
 }
 
 section:nth-child(even) {
-  background-color: #5f5fbe;
+  background-color: #9393e1;
 }
 
 /* Smooth scrolling for anchor links */
