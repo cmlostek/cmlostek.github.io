@@ -9,16 +9,12 @@ const Projects = () => {
       description: "Collaborative project with a group of friends to create a restaurant ordering API. We used React for the frontend and Python for the backend. This project was a part of my Software Engineering class at UNC Charlotte. We used Agile methodologies to develop the project.",
       technologies: ["React", "Node.js", "MySQL", "Python"],
       github: "https://github.com/cmlostek/itsc3155_GroupProject",
-      demo: "#",
-      website: "#"
     },
     {
       id: 2,
       title: "MC1R Gene Research Project",
       description: "Research project on the MC1R gene and its role in the pigmentation of Chiroptera coat colors. This project was a part of my Bioinformatics Masters at UNC Charlotte. I used tools such as tblastx to search for the gene in the genome of Chiroptera. Now we are working towards extracting the gene from the genome and using geneus to align them against a known gene.",
       technologies: ["Bash", "HPC", "BLAST", "Geneus"],
-      github: "#",
-      demo: "#",
       website: "https://www.yohelab.net/"
     }
   ];
