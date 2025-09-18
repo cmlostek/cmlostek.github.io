@@ -89,7 +89,7 @@ export default function Home() {
     }
   }, [revealedCharactersCount, targetText]);
 
-  const backgroundImageUrl = `${process.env.PUBLIC_URL || ''}/pfp.jpeg`;
+  const backgroundImageUrl = `${process.env.PUBLIC_URL || ''}/banner.jpeg`;
 
   return (
     <section className="home-hero" style={{ backgroundImage: `url(${backgroundImageUrl})` }}>
