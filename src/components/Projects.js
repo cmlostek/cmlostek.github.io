@@ -12,16 +12,14 @@ const Projects = () => {
       demo: "#",
       website: "#"
     },
-
-  ];
-  
-  [
     {
       id: 2,
       title: "MC1R Gene Research Project",
       description: "Research project on the MC1R gene and its role in the pigmentation of Chiroptera coat colors. This project was a part of my Bioinformatics Masters at UNC Charlotte. I used tools such as tblastx to search for the gene in the genome of Chiroptera. Now we are working towards extracting the gene from the genome and using geneus to align them against a known gene.",
       technologies: ["Bash", "HPC", "BLAST", "Geneus"],
-      website: "https://www.yohelab.net/",
+      github: "#",
+      demo: "#",
+      website: "https://www.yohelab.net/"
     }
   ];
 
