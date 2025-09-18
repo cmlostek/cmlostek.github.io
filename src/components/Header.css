@@ -4,7 +4,7 @@
   top: 0;
   left: 0;
   right: 0;
-  background-color: rgba(189, 194, 208, 0.95);
+  background-color: #bcd6f1;
   backdrop-filter: blur(10px);
   border-bottom: 1px solid #e9ecef;
   z-index: 1000;
@@ -46,7 +46,7 @@
 }
 
 .nav-link:hover {
-  color: #007bff;
+  color: #678aaf;
 }
 
 .nav-link::after {
@@ -56,7 +56,7 @@
   left: 0;
   width: 0;
   height: 2px;
-  background-color: #007bff;
+  background-color: #678aaf;
   transition: width 0.3s ease;
 }
 

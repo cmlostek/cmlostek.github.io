@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import emailjs from '@emailjs/browser';
 import './Contact.css';
 
 const Contact = () => {
@@ -7,6 +8,8 @@ const Contact = () => {
     email: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null); // 'success', 'error', or null
 
   const handleChange = (e) => {
     setFormData({
@@ -15,13 +18,34 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
-    // You can integrate with a service like EmailJS or your backend
-    alert('Hi there! This is currently not implemented, but feel free to reach out to me via email or LinkedIn!');
-    setFormData({ name: '', email: '', message: '' });
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      // Replace these with your actual EmailJS credentials
+      const serviceId = 'service_00uzfhv';
+      const templateId = 'template_8pimgtk';
+      const publicKey = '-mtb4mwaA4yC6Au-3';
+
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        message: formData.message,
+        to_email: 'colerm17@gmail.com' // Your email address
+      };
+
+      await emailjs.send(serviceId, templateId, templateParams, publicKey);
+      
+      setSubmitStatus('success');
+      setFormData({ name: '', email: '', message: '' });
+    } catch (error) {
+      console.error('Error sending email:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -56,6 +80,17 @@ const Contact = () => {
           </div>
           
           <form className="contact-form" onSubmit={handleSubmit}>
+            {submitStatus === 'success' && (
+              <div className="status-message success">
+                ✅ Thank you! Your message has been sent successfully.
+              </div>
+            )}
+            {submitStatus === 'error' && (
+              <div className="status-message error">
+                ❌ Sorry, there was an error sending your message. Please try again or contact me directly at colerm17@gmail.com
+              </div>
+            )}
+            
             <div className="form-group">
               <label htmlFor="name">Name</label>
               <input
@@ -65,6 +100,7 @@ const Contact = () => {
                 value={formData.name}
                 onChange={handleChange}
                 required
+                disabled={isSubmitting}
               />
             </div>
             <div className="form-group">
@@ -76,6 +112,7 @@ const Contact = () => {
                 value={formData.email}
                 onChange={handleChange}
                 required
+                disabled={isSubmitting}
               />
             </div>
             <div className="form-group">
@@ -87,9 +124,16 @@ const Contact = () => {
                 onChange={handleChange}
                 rows="5"
                 required
+                disabled={isSubmitting}
               ></textarea>
             </div>
-            <button type="submit" className="submit-btn">Send Message</button>
+            <button 
+              type="submit" 
+              className="submit-btn" 
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Sending...' : 'Send Message'}
+            </button>
           </form>
         </div>
       </div>

@@ -75,18 +75,18 @@
 }
 
 .project-link:hover {
-  background-color: #0056b3;
+  background-color: #678aaf;
   color: white;
 }
 
 .project-link:last-child {
   background-color: transparent;
-  color: #007bff;
-  border: 2px solid #007bff;
+  color: #678aaf;
+  border: 2px solid #678aaf;
 }
 
 .project-link:last-child:hover {
-  background-color: #007bff;
+  background-color: #678aaf;
   color: white;
 }
 
