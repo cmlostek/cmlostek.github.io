@@ -9,13 +9,9 @@ main {
   flex: 1;
 }
 
-/* Section Spacing */
-section {
+/* Section Spacing - but not for home hero */
+section:not(.home-hero) {
   padding: 80px 0;
-}
-
-section:nth-child(odd) {
-  background-color: #678aaf;
 }
 
 /* Smooth scrolling for anchor links */
