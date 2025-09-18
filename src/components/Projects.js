@@ -34,15 +34,21 @@ const Projects = () => {
                 ))}
               </div>
               <div className="project-links">
-                <a href={project.github} className="project-link" target="_blank" rel="noopener noreferrer">
-                  GitHub
-                </a>
-                <a href={project.demo} className="project-link" target="_blank" rel="noopener noreferrer">
-                  Live Demo
-                </a>
-                <a href={project.website} className="project-link" target="_blank" rel="noopener noreferrer">
-                  Website
-                </a>
+                {project.github && (
+                  <a href={project.github} className="project-link" target="_blank" rel="noopener noreferrer">
+                    GitHub
+                  </a>
+                )}
+                {project.demo && (
+                  <a href={project.demo} className="project-link" target="_blank" rel="noopener noreferrer">
+                    Live Demo
+                  </a>
+                )}
+                {project.website && (
+                  <a href={project.website} className="project-link" target="_blank" rel="noopener noreferrer">
+                    Website
+                  </a>
+                )}
               </div>
             </div>
           ))}
