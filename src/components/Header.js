@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import './Header.css';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+  const closeMenu = () => {
     setIsMenuOpen(false);
   };
 
@@ -20,19 +18,33 @@ const Header = () => {
     <header className="header">
       <nav className="nav">
         <div className="nav-brand">
-          <h1>Cole Mlostek</h1>
+          <Link to="/" onClick={closeMenu}>
+            <h1>Cole Mlostek</h1>
+          </Link>
         </div>
         
         <div className={`nav-menu ${isMenuOpen ? 'nav-menu-active' : ''}`}>
-          <a href="#about" onClick={() => scrollToSection('about')} className="nav-link">
+          <Link 
+            to="/about" 
+            className={`nav-link ${location.pathname === '/about' ? 'active' : ''}`}
+            onClick={closeMenu}
+          >
             About
-          </a>
-          <a href="#projects" onClick={() => scrollToSection('projects')} className="nav-link">
+          </Link>
+          <Link 
+            to="/projects" 
+            className={`nav-link ${location.pathname === '/projects' ? 'active' : ''}`}
+            onClick={closeMenu}
+          >
             Projects
-          </a>
-          <a href="#contact" onClick={() => scrollToSection('contact')} className="nav-link">
+          </Link>
+          <Link 
+            to="/contact" 
+            className={`nav-link ${location.pathname === '/contact' ? 'active' : ''}`}
+            onClick={closeMenu}
+          >
             Contact
-          </a>
+          </Link>
         </div>
 
         <div className="nav-toggle" onClick={toggleMenu}>

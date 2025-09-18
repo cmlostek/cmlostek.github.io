@@ -20,7 +20,7 @@ const Projects = () => {
   ];
 
   return (
-    <section id="projects" className="projects">
+    <section className="projects">
       <div className="container">
         <h2>My Projects</h2>
         <div className="projects-grid">

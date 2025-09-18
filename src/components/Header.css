@@ -64,6 +64,15 @@
   width: 100%;
 }
 
+.nav-link.active {
+  color: #678aaf;
+  font-weight: 600;
+}
+
+.nav-link.active::after {
+  width: 100%;
+}
+
 .nav-toggle {
   display: none;
   flex-direction: column;
