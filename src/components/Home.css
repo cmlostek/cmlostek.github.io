@@ -1,6 +1,7 @@
 .home-hero {
   position: relative;
-  min-height: 100vh;
+  /* Reduce hero height so the banner fits better */
+  min-height: 60vh;
   width: 100%;
   background-position: center;
   background-size: cover;
@@ -38,6 +39,19 @@
 @media (prefers-reduced-motion: reduce) {
   .home-hero__title {
     transition: none;
+  }
+}
+
+/* Responsive hero sizing */
+@media (max-width: 992px) {
+  .home-hero {
+    min-height: 50vh;
+  }
+}
+
+@media (max-width: 600px) {
+  .home-hero {
+    min-height: 40vh;
   }
 }
 
