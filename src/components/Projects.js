@@ -9,7 +9,8 @@ const Projects = () => {
       description: "Collaborative project with a group of friends to create a restaurant ordering API. We used React for the frontend and Python for the backend. This project was a part of my Software Engineering class at UNC Charlotte. We used Agile methodologies to develop the project.",
       technologies: ["React", "Node.js", "MySQL", "Python"],
       github: "https://github.com/cmlostek/itsc3155_GroupProject",
-      demo: "#"
+      demo: "#",
+      website: "#"
     },
 
   ];
