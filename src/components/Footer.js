@@ -19,6 +19,13 @@ const Footer = () => {
             <a href="mailto:your.colerm17@gmail.com">
               Email
             </a>
+              <a
+                  href="https://www.yohelab.net/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >
+                  Research Lab
+              </a>
           </div>
         </div>
       </div>

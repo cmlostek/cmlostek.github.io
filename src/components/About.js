@@ -27,7 +27,7 @@ const About = () => {
                 <span className="skill-tag">SQL</span>
                 <span className="skill-tag">R</span>
                 <span className="skill-tag">Java</span>
-                <span className="skill-tag">bash</span>
+                <span className="skill-tag">Bash</span>
                 <span className="skill-tag">HPC Cluster Resources</span>
                 <span className="skill-tag">Linux</span>
               </div>
