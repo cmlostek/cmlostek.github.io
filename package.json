@@ -11,7 +11,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
-  "homepage": "https://cmlostek.site",
+  "homepage": ".",
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
     "react": "^18.2.0",
