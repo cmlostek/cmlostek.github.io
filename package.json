@@ -8,10 +8,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "predeploy": "npm run build && cp CNAME build/",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
-  "homepage": ".",
+  "homepage": "https://cmlostek.site",
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
     "react": "^18.2.0",
