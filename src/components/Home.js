@@ -30,10 +30,36 @@ export default function Home() {
     const targetText = useMemo(() => 'Cole Mlostek', []);
     const [displayText, setDisplayText] = useState(() => generateRandomizedString(targetText));
     const [revealedCharactersCount, setRevealedCharactersCount] = useState(0);
+
+    // Added: detect prefers-reduced-motion so we can disable scrambling + autoplay
+    const [reducedMotion, setReducedMotion] = useState(false);
+    useEffect(() => {
+        if (typeof window === 'undefined' || !window.matchMedia) {
+            return;
+        }
+        const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const update = () => setReducedMotion(!!mq.matches);
+        update();
+        // support both addEventListener and addListener for older browsers
+        if (mq.addEventListener) mq.addEventListener('change', update);
+        else mq.addListener(update);
+        return () => {
+            if (mq.removeEventListener) mq.removeEventListener('change', update);
+            else mq.removeListener(update);
+        };
+    }, []);
+
     const scrambleIntervalRef = useRef(null);
     const revealIntervalRef = useRef(null);
 
     useEffect(() => {
+        // If user prefers reduced motion, reveal text immediately and don't start intervals
+        if (reducedMotion) {
+            setDisplayText(targetText);
+            setRevealedCharactersCount(targetText.length);
+            return;
+        }
+
         // Frequently scramble unrevealed characters for the jumbled animation effect
         scrambleIntervalRef.current = setInterval(() => {
             setDisplayText((current) => {
@@ -74,7 +100,7 @@ export default function Home() {
                 clearInterval(revealIntervalRef.current);
             }
         };
-    }, [targetText, revealedCharactersCount]);
+    }, [targetText, revealedCharactersCount, reducedMotion]);
 
     useEffect(() => {
         // Stop scrambling once fully revealed
@@ -90,31 +116,15 @@ export default function Home() {
     }, [revealedCharactersCount, targetText]);
 
     const backgroundImageUrl = `${process.env.PUBLIC_URL || ''}/banner.jpeg`;
-    const youtubeVideoId = 'b0q5PR1xpA0';
-    const youtubeEmbedUrl = `https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1&loop=1&playlist=${youtubeVideoId}&controls=0&rel=0&modestbranding=1`;
 
     return (
         <section className="home-hero" style={{backgroundImage: `url(${backgroundImageUrl})`}}>
-            <iframe
-                src={youtubeEmbedUrl}
-                title="Background music - Cipher by LEMMINO"
-                allow="autoplay; encrypted-media"
-                style={{position: 'absolute', width: 1, height: 1, left: -9999}}
-                aria-hidden="true"
-            />
             <div className="home-hero__overlay"/>
             <div className="home-hero__content">
                 <h1 className="home-hero__title" aria-label={targetText}>
                     {displayText}
                 </h1>
             </div>
-            <footer className="home-hero__footer">
-                <small>
-                    Music: <a href="https://youtu.be/b0q5PR1xpA0?si=PLMeFO6Wzf8DBLfv" target="_blank"
-                              rel="noopener noreferrer">Cipher — LEMMINO</a>
-                </small>
-            </footer>
         </section>
     );
 }
-

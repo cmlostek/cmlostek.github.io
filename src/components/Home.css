@@ -24,6 +24,24 @@
   text-align: center;
 }
 
+/* Ensure footer is visible above overlay and spaced below the hero content */
+.home-hero__footer {
+  position: relative;
+  z-index: 1;
+  margin-top: 1rem;
+  color: #bcd6f1;
+}
+
+.home-hero__footer small {
+  display: inline-block;
+  opacity: 0.9;
+}
+
+.home-hero__footer a {
+  color: inherit;
+  text-decoration: underline;
+}
+
 .home-hero__title {
   font-family: 'Courier New', Courier, monospace;
   font-weight: 800;
@@ -54,5 +72,3 @@
     height: 75vh;
   }
 }
-
-
