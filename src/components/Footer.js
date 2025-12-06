@@ -58,7 +58,7 @@ export default function Footer() {
       setIsPlaying(false);
     } else {
       // user action: unmute and play at 50%
-      postPlayerCommand(iframe, 'setVolume', [50]);
+      postPlayerCommand(iframe, 'setVolume', []);
       postPlayerCommand(iframe, 'unMute');
       postPlayerCommand(iframe, 'playVideo');
       setUserStopped(false);
