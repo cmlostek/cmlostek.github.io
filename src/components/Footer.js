@@ -109,7 +109,7 @@ const Footer = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Cipher — LEMMINO
+              Music: Cipher — LEMMINO
             </a>
 
             {/* Play/unmute toggle (user gesture to enable sound) */}
