@@ -27,80 +27,94 @@ function scrambleText(targetText, revealCount) {
 }
 
 export default function Home() {
-  const targetText = useMemo(() => 'Cole Mlostek', []);
-  const [displayText, setDisplayText] = useState(() => generateRandomizedString(targetText));
-  const [revealedCharactersCount, setRevealedCharactersCount] = useState(0);
-  const scrambleIntervalRef = useRef(null);
-  const revealIntervalRef = useRef(null);
+    const targetText = useMemo(() => 'Cole Mlostek', []);
+    const [displayText, setDisplayText] = useState(() => generateRandomizedString(targetText));
+    const [revealedCharactersCount, setRevealedCharactersCount] = useState(0);
+    const scrambleIntervalRef = useRef(null);
+    const revealIntervalRef = useRef(null);
 
-  useEffect(() => {
-    // Frequently scramble unrevealed characters for the jumbled animation effect
-    scrambleIntervalRef.current = setInterval(() => {
-      setDisplayText((current) => {
-        return scrambleText(targetText, revealedCharactersCount);
-      });
-    }, 30);
+    useEffect(() => {
+        // Frequently scramble unrevealed characters for the jumbled animation effect
+        scrambleIntervalRef.current = setInterval(() => {
+            setDisplayText((current) => {
+                return scrambleText(targetText, revealedCharactersCount);
+            });
+        }, 30);
 
-    // Gradually reveal the target text, one character at a time
-    revealIntervalRef.current = setInterval(() => {
-      setRevealedCharactersCount((count) => {
-        if (count >= targetText.length) {
-          return count;
+        // Gradually reveal the target text, one character at a time
+        revealIntervalRef.current = setInterval(() => {
+            setRevealedCharactersCount((count) => {
+                if (count >= targetText.length) {
+                    return count;
+                }
+
+                const nextCount = count + 1;
+                // Ensure spaces are revealed atomically (skip to include spaces)
+                let adjustedCount = nextCount;
+                while (adjustedCount < targetText.length && targetText[adjustedCount - 1] === ' ') {
+                    adjustedCount += 1;
+                }
+
+                // Update the display to reflect the newly revealed characters
+                setDisplayText((prev) => {
+                    const revealedPortion = targetText.slice(0, adjustedCount);
+                    const scrambledRemainder = scrambleText(targetText.slice(adjustedCount), 0);
+                    return revealedPortion + scrambledRemainder;
+                });
+
+                return adjustedCount;
+            });
+        }, 120);
+
+        return () => {
+            if (scrambleIntervalRef.current) {
+                clearInterval(scrambleIntervalRef.current);
+            }
+            if (revealIntervalRef.current) {
+                clearInterval(revealIntervalRef.current);
+            }
+        };
+    }, [targetText, revealedCharactersCount]);
+
+    useEffect(() => {
+        // Stop scrambling once fully revealed
+        if (revealedCharactersCount >= targetText.length) {
+            if (scrambleIntervalRef.current) {
+                clearInterval(scrambleIntervalRef.current);
+            }
+            if (revealIntervalRef.current) {
+                clearInterval(revealIntervalRef.current);
+            }
+            setDisplayText(targetText);
         }
+    }, [revealedCharactersCount, targetText]);
 
-        const nextCount = count + 1;
-        // Ensure spaces are revealed atomically (skip to include spaces)
-        let adjustedCount = nextCount;
-        while (adjustedCount < targetText.length && targetText[adjustedCount - 1] === ' ') {
-          adjustedCount += 1;
-        }
+    const backgroundImageUrl = `${process.env.PUBLIC_URL || ''}/banner.jpeg`;
+    const youtubeVideoId = 'b0q5PR1xpA0';
+    const youtubeEmbedUrl = `https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1&loop=1&playlist=${youtubeVideoId}&controls=0&rel=0&modestbranding=1`;
 
-        // Update the display to reflect the newly revealed characters
-        setDisplayText((prev) => {
-          const revealedPortion = targetText.slice(0, adjustedCount);
-          const scrambledRemainder = scrambleText(targetText.slice(adjustedCount), 0);
-          return revealedPortion + scrambledRemainder;
-        });
-
-        return adjustedCount;
-      });
-    }, 120);
-
-    return () => {
-      if (scrambleIntervalRef.current) {
-        clearInterval(scrambleIntervalRef.current);
-      }
-      if (revealIntervalRef.current) {
-        clearInterval(revealIntervalRef.current);
-      }
-    };
-  }, [targetText, revealedCharactersCount]);
-
-  useEffect(() => {
-    // Stop scrambling once fully revealed
-    if (revealedCharactersCount >= targetText.length) {
-      if (scrambleIntervalRef.current) {
-        clearInterval(scrambleIntervalRef.current);
-      }
-      if (revealIntervalRef.current) {
-        clearInterval(revealIntervalRef.current);
-      }
-      setDisplayText(targetText);
-    }
-  }, [revealedCharactersCount, targetText]);
-
-  const backgroundImageUrl = `${process.env.PUBLIC_URL || ''}/banner.jpeg`;
-
-  return (
-    <section className="home-hero" style={{ backgroundImage: `url(${backgroundImageUrl})` }}>
-      <div className="home-hero__overlay" />
-      <div className="home-hero__content">
-        <h1 className="home-hero__title" aria-label={targetText}>
-          {displayText}
-        </h1>
-      </div>
-    </section>
-  );
+    return (
+        <section className="home-hero" style={{backgroundImage: `url(${backgroundImageUrl})`}}>
+            <iframe
+                src={youtubeEmbedUrl}
+                title="Background music - Cipher by LEMMINO"
+                allow="autoplay; encrypted-media"
+                style={{position: 'absolute', width: 1, height: 1, left: -9999}}
+                aria-hidden="true"
+            />
+            <div className="home-hero__overlay"/>
+            <div className="home-hero__content">
+                <h1 className="home-hero__title" aria-label={targetText}>
+                    {displayText}
+                </h1>
+            </div>
+            <footer className="home-hero__footer">
+                <small>
+                    Music: <a href="https://youtu.be/b0q5PR1xpA0?si=PLMeFO6Wzf8DBLfv" target="_blank"
+                              rel="noopener noreferrer">Cipher — LEMMINO</a>
+                </small>
+            </footer>
+        </section>
+    );
 }
-
 
