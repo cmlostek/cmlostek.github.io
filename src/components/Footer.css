@@ -58,6 +58,48 @@
   color: #fff;
 }
 
+/* Minimal styles: hide the iframe visually but keep it in DOM, and style the control button. */
+.site-footer {
+  position: relative;
+  padding: 1rem;
+  text-align: center;
+}
+
+/* Simple button */
+.footer-controls .music-toggle {
+  background: #1f6feb;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 0.85rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.footer-controls .music-toggle:hover {
+  opacity: 0.9;
+}
+
+.footer-controls .music-note {
+  display: block;
+  margin-top: 0.5rem;
+  color: #94a3b8;
+  font-size: 0.85rem;
+}
+
+/* Keep the iframe present but visually hidden/off-screen to avoid layout impact.
+   It must not be display:none otherwise postMessage/YouTube API may not work reliably. */
+.hidden-music-iframe {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  border: 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
 /* Mobile Styles */
 @media (max-width: 768px) {
   .footer-content {
