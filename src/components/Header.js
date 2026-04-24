@@ -1,56 +1,58 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import './Header.css';
+import ThemeToggle from './ThemeToggle';
+
+const navLinks = [
+  { label: 'About',    href: '#about' },
+  { label: 'Projects', href: '#projects' },
+  { label: 'Contact',  href: '#contact' },
+];
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const location = useLocation();
+  const [scrolled, setScrolled] = useState(false);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-  const closeMenu = () => {
-    setIsMenuOpen(false);
-  };
+  const closeMenu = () => setIsMenuOpen(false);
+  const toggleMenu = () => setIsMenuOpen(prev => !prev);
 
   return (
-    <header className="header">
+    <header className={`header${scrolled ? ' header--scrolled' : ''}`}>
       <nav className="nav">
-        <div className="nav-brand">
-          <Link to="/" onClick={closeMenu}>
-            <h1>Cole Mlostek</h1>
-          </Link>
-        </div>
-        
-        <div className={`nav-menu ${isMenuOpen ? 'nav-menu-active' : ''}`}>
-          <Link 
-            to="/about" 
-            className={`nav-link ${location.pathname === '/about' ? 'active' : ''}`}
-            onClick={closeMenu}
-          >
-            About
-          </Link>
-          <Link 
-            to="/projects" 
-            className={`nav-link ${location.pathname === '/projects' ? 'active' : ''}`}
-            onClick={closeMenu}
-          >
-            Projects
-          </Link>
-          <Link 
-            to="/contact" 
-            className={`nav-link ${location.pathname === '/contact' ? 'active' : ''}`}
-            onClick={closeMenu}
-          >
-            Contact
-          </Link>
+        <a href="#home" className="nav-brand" onClick={closeMenu}>
+          Cole Mlostek
+        </a>
+
+        <div className={`nav-menu${isMenuOpen ? ' nav-menu--open' : ''}`}>
+          {navLinks.map(({ label, href }) => (
+            <a
+              key={href}
+              href={href}
+              className="nav-link"
+              onClick={closeMenu}
+            >
+              {label}
+            </a>
+          ))}
         </div>
 
-        <div className="nav-toggle" onClick={toggleMenu}>
-          <span className="bar"></span>
-          <span className="bar"></span>
-          <span className="bar"></span>
+        <div className="nav-actions">
+          <ThemeToggle />
+          <button
+            className={`nav-toggle${isMenuOpen ? ' nav-toggle--open' : ''}`}
+            onClick={toggleMenu}
+            aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={isMenuOpen}
+          >
+            <span className="bar" />
+            <span className="bar" />
+            <span className="bar" />
+          </button>
         </div>
       </nav>
     </header>

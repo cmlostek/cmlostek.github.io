@@ -1,74 +1,459 @@
-.home-hero {
+/* ===== Hero Section ===== */
+.hero {
   position: relative;
-  /* Make hero take most of viewport height but leave some space */
-  height: 85vh;
-  width: 100%;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  min-height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  background: linear-gradient(
+    185deg,
+    #000000 0%,
+    #010408 30%,
+    var(--ocean-dark) 65%,
+    #030c18 100%
+  );
+  overflow: hidden;
+  padding: 0 24px;
 }
 
-.home-hero__overlay {
+/* ─────────────────────────────────────────────
+   Sky layer (parallaxed upward on scroll)
+───────────────────────────────────────────── */
+.sky-layer {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
 }
 
-.home-hero__content {
+/* ── Stars ── */
+.star-field {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.star {
+  fill: #fff;
+  animation: twinkle 3s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+  from { opacity: 0.88; }
+  to   { opacity: 0.04; }
+}
+
+/* ── Moon ── */
+.moon {
+  position: absolute;
+  top: 11%;
+  right: 17%;
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 36%, #c0d4f4, #2a5ab8 55%, #0e2a70 100%);
+  box-shadow:
+    0 0 18px rgba(100, 160, 255, 0.45),
+    0 0 60px rgba(40, 100, 240, 0.18),
+    inset -8px -6px 16px rgba(0, 20, 80, 0.4);
+}
+
+.moon__halo {
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(80,140,255,0.10) 60%, transparent 100%);
+  pointer-events: none;
+}
+
+.moon__crater {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(10, 30, 90, 0.4);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+.moon__crater--1 { width: 17px; height: 17px; top: 17%; left: 20%; }
+.moon__crater--2 { width: 10px; height: 10px; top: 56%; left: 62%; }
+.moon__crater--3 { width: 12px; height: 12px; top: 28%; left: 66%; }
+
+/* ── Sky background planets ── */
+.sky-planet {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Mars-like — small, upper left area */
+.sky-planet--1 {
+  width: 13px;
+  height: 13px;
+  top: 20%;
+  left: 14%;
+  background: radial-gradient(circle at 35% 32%, #e09060, #5a1a08 80%);
+  box-shadow: 0 0 8px rgba(224, 144, 96, 0.45);
+  opacity: 0.75;
+  animation: planet-pulse 8s ease-in-out infinite;
+}
+
+/* Neptune-like — medium, left-center */
+.sky-planet--2 {
+  width: 24px;
+  height: 24px;
+  top: 40%;
+  left: 7%;
+  background: radial-gradient(circle at 38% 34%, #8090e8, #1a2468 80%);
+  box-shadow: 0 0 14px rgba(128, 144, 232, 0.4);
+  opacity: 0.6;
+  animation: planet-pulse 12s ease-in-out 2s infinite;
+}
+
+/* Saturn-like ring on the Neptune planet */
+.sky-planet--2::before {
+  content: '';
+  position: absolute;
+  width: 190%;
+  height: 45%;
+  border: 1.5px solid rgba(128, 144, 232, 0.35);
+  border-radius: 50%;
+  top: 27%;
+  left: -45%;
+  transform: rotateX(72deg);
+  pointer-events: none;
+}
+
+@keyframes planet-pulse {
+  0%, 100% { filter: brightness(1); }
+  50%       { filter: brightness(1.3); }
+}
+
+/* ─────────────────────────────────────────────
+   Hero content
+───────────────────────────────────────────── */
+.hero__content {
   position: relative;
-  z-index: 1;
-  padding: 0 1rem;
+  z-index: 2;
   text-align: center;
+  max-width: 800px;
 }
 
-/* Ensure footer is visible above overlay and spaced below the hero content */
-.home-hero__footer {
-  position: relative;
-  z-index: 1;
-  margin-top: 1rem;
-  color: #bcd6f1;
-}
-
-.home-hero__footer small {
+.hero__eyebrow {
   display: inline-block;
-  opacity: 0.9;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--seafoam);
+  opacity: 0.75;
+  margin-bottom: 1.2rem;
 }
 
-.home-hero__footer a {
-  color: inherit;
-  text-decoration: underline;
-}
-
-.home-hero__title {
+.hero__title {
   font-family: 'Courier New', Courier, monospace;
   font-weight: 800;
-  letter-spacing: 0.08em;
-  font-size: clamp(2.4rem, 6vw + 1rem, 6rem);
-  color: #bcd6f1;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
-  margin: 0;
+  font-size: clamp(2.6rem, 7vw + 1rem, 6.5rem);
+  letter-spacing: 0.06em;
+  color: var(--seafoam);
+  text-shadow:
+    0 0 40px rgba(26, 95, 216, 0.4),
+    0 2px 12px rgba(0, 0, 0, 0.6);
+  margin: 0 0 1rem;
   user-select: none;
   white-space: pre;
+  line-height: 1.1;
 }
 
+.hero__subtitle {
+  font-size: clamp(0.9rem, 2vw, 1.15rem);
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  margin-bottom: 2.5rem;
+}
+
+.hero__cta {
+  display: inline-block;
+  padding: 0.75rem 2.2rem;
+  background: transparent;
+  border: 2px solid var(--seafoam);
+  color: var(--seafoam);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hero__cta:hover {
+  background: var(--seafoam);
+  color: var(--ocean-deep);
+  box-shadow: 0 0 24px rgba(26, 95, 216, 0.4);
+}
+
+/* ── Scroll cue ── */
+.hero__scroll-cue {
+  position: absolute;
+  bottom: 160px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+.scroll-arrow {
+  display: inline-block;
+  color: var(--seafoam);
+  opacity: 0.4;
+  font-size: 1.3rem;
+  animation: bounce 2.2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(9px); }
+}
+
+/* ─────────────────────────────────────────────
+   Wave layers
+───────────────────────────────────────────── */
+.hero__waves {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 150px;
+  z-index: 1;
+  overflow: hidden;
+}
+
+/* Each wave-track holds 2 SVGs side-by-side (200% wide) for seamless loop */
+.wave-track {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  display: flex;
+}
+
+.wave-track svg {
+  flex: 0 0 50%;
+  height: 100%;
+}
+
+.wave-track--1 svg { fill: rgba(14, 42, 92, 0.65); }
+.wave-track--1 { animation: wave-slide 11s linear infinite; }
+
+.wave-track--2 svg { fill: rgba(26, 95, 216, 0.20); }
+.wave-track--2 { animation: wave-slide 7.5s linear infinite reverse; animation-delay: -2s; }
+
+.wave-track--3 svg { fill: var(--ocean-mid); }
+.wave-track--3 { animation: wave-slide 5s linear infinite; animation-delay: -1s; }
+
+@keyframes wave-slide {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ─────────────────────────────────────────────
+   Reduced motion
+───────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  .home-hero__title {
-    transition: none;
-  }
+  .hero__title  { transition: none; }
+  .scroll-arrow { animation: none; }
+  .wave-track   { animation: none; }
+  .star         { animation: none; opacity: 0.5; }
+  .sky-planet   { animation: none; }
 }
 
-/* Responsive hero sizing */
-@media (max-width: 992px) {
-  .home-hero {
-    height: 80vh;
+/* ─────────────────────────────────────────────
+   Mobile
+───────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .hero__title {
+    white-space: normal;
+    word-break: break-word;
+    font-size: clamp(2.2rem, 10vw, 3.5rem);
   }
+
+  .moon {
+    width: 56px;
+    height: 56px;
+    top: 8%;
+    right: 10%;
+  }
+
+  .sky-planet--1 { left: 8%; }
+  .sky-planet--2 { left: 4%; }
+
+  .hero__scroll-cue { bottom: 168px; }
+  .hero__waves { height: 110px; }
 }
 
-@media (max-width: 600px) {
-  .home-hero {
-    height: 75vh;
+@media (max-width: 480px) {
+  .hero__cta { padding: 0.65rem 1.6rem; font-size: 0.88rem; }
+}
+
+/* ─────────────────────────────────────────────
+   Moon — base has the "return to dark" transition
+   [data-theme="light"] sets the "enter light" transition
+───────────────────────────────────────────── */
+.moon {
+  will-change: transform;
+  /* Fires when switching back to dark: moon bounces up from below */
+  transition: transform 0.9s cubic-bezier(0.34, 1.3, 0.64, 1) 0.45s;
+}
+
+[data-theme="light"] .moon {
+  transform: translateY(130vh);
+  /* Fires when entering light mode: moon sinks quickly */
+  transition: transform 0.5s ease-in;
+}
+
+/* ─────────────────────────────────────────────
+   Sun — dark mode is below horizon
+───────────────────────────────────────────── */
+.sun {
+  position: absolute;
+  top: 10%;
+  right: 17%;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 42%, #fffde4, #ffe040 42%, #ffbb00 72%, #ff8c00 100%);
+  box-shadow:
+    0 0 0 12px rgba(255, 220, 60, 0.14),
+    0 0 0 26px rgba(255, 200, 30, 0.07),
+    0 0 45px rgba(255, 200, 0, 0.9),
+    0 0 110px rgba(255, 165, 0, 0.55),
+    0 0 220px rgba(255, 130, 0, 0.22);
+  will-change: transform;
+  /* Dark mode: sun is below horizon */
+  transform: translateY(130vh);
+  /* Fires when switching back to dark: sun sinks quickly */
+  transition: transform 0.5s ease-in 0.1s;
+  animation: sun-breathe 6s ease-in-out infinite;
+}
+
+[data-theme="light"] .sun {
+  transform: translateY(0);
+  /* Fires when entering light mode: sun bounces up after moon sets */
+  transition: transform 0.9s cubic-bezier(0.34, 1.3, 0.64, 1) 0.45s;
+}
+
+@keyframes sun-breathe {
+  0%, 100% { filter: brightness(1); }
+  50%       { filter: brightness(1.08); }
+}
+
+/* ─────────────────────────────────────────────
+   Stars/planets — fade in light mode
+───────────────────────────────────────────── */
+[data-theme="light"] .star {
+  animation: none !important;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+[data-theme="light"] .sky-planet {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+/* ─────────────────────────────────────────────
+   Light mode hero sky
+───────────────────────────────────────────── */
+[data-theme="light"] .hero {
+  background: linear-gradient(
+    185deg,
+    #3a8ecb 0%,
+    #6db8e2 30%,
+    #a8d8f0 65%,
+    #d0edfc 100%
+  );
+}
+
+[data-theme="light"] .hero__eyebrow {
+  color: #1448c0;
+  opacity: 0.85;
+}
+
+[data-theme="light"] .hero__title {
+  color: #0c2a6e;
+  text-shadow:
+    0 0 40px rgba(20, 72, 192, 0.25),
+    0 2px 12px rgba(255, 255, 255, 0.4);
+}
+
+[data-theme="light"] .hero__subtitle {
+  color: #2a4a7e;
+}
+
+[data-theme="light"] .hero__cta {
+  border-color: #1448c0;
+  color: #1448c0;
+}
+
+[data-theme="light"] .hero__cta:hover {
+  background: #1448c0;
+  color: #fff;
+}
+
+[data-theme="light"] .scroll-arrow {
+  color: #1448c0;
+}
+
+/* ─────────────────────────────────────────────
+   Light mode waves
+───────────────────────────────────────────── */
+[data-theme="light"] .wave-track--1 svg { fill: rgba(80, 150, 210, 0.55); }
+[data-theme="light"] .wave-track--2 svg { fill: rgba(150, 205, 240, 0.55); }
+[data-theme="light"] .wave-track--3 svg { fill: #c8e8f8; }
+
+/* ─────────────────────────────────────────────
+   Birds — light mode only
+───────────────────────────────────────────── */
+.birds {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.bird {
+  position: absolute;
+  left: 0;
+  color: rgba(15, 35, 80, 0.65);
+  opacity: 0;
+  animation-name: bird-fly;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+  animation-play-state: paused;
+  transition: opacity 0.5s ease;
+}
+
+[data-theme="light"] .bird {
+  opacity: 1;
+  animation-play-state: running;
+}
+
+@keyframes bird-fly {
+  0%   { transform: translateX(-60px) translateY(0px); }
+  15%  { transform: translateX(15vw)  translateY(-10px); }
+  35%  { transform: translateX(35vw)  translateY(4px); }
+  55%  { transform: translateX(55vw)  translateY(-8px); }
+  75%  { transform: translateX(75vw)  translateY(3px); }
+  100% { transform: translateX(calc(100vw + 60px)) translateY(0px); }
+}
+
+/* Mobile sun position */
+@media (max-width: 768px) {
+  .sun {
+    width: 58px;
+    height: 58px;
+    top: 8%;
+    right: 10%;
   }
 }

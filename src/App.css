@@ -1,20 +1,16 @@
-/* App Component Styles */
+/* App layout */
 .App {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: var(--ocean-dark);
 }
 
 main {
   flex: 1;
 }
 
-/* Section Spacing - but not for home hero */
-section:not(.home-hero) {
-  padding: 80px 0;
-}
-
-/* Smooth scrolling for anchor links */
+/* Offset for fixed header when anchor-scrolling */
 html {
-  scroll-padding-top: 80px;
+  scroll-padding-top: 72px;
 }

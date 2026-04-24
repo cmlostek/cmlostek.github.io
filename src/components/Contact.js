@@ -3,19 +3,12 @@ import emailjs from '@emailjs/browser';
 import './Contact.css';
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null); // 'success', 'error', or null
+  const [submitStatus, setSubmitStatus] = useState(null); // 'success' | 'error' | null
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
@@ -24,24 +17,21 @@ const Contact = () => {
     setSubmitStatus(null);
 
     try {
-      // Replace these with your actual EmailJS credentials
-      const serviceId = 'service_00uzfhv';
-      const templateId = 'template_8pimgtk';
-      const publicKey = '-mtb4mwaA4yC6Au-3';
-
-      const templateParams = {
-        from_name: formData.name,
-        from_email: formData.email,
-        message: formData.message,
-        to_email: 'colerm17@gmail.com' // Your email address
-      };
-
-      await emailjs.send(serviceId, templateId, templateParams, publicKey);
-      
+      await emailjs.send(
+        'service_00uzfhv',
+        'template_8pimgtk',
+        {
+          from_name:  formData.name,
+          from_email: formData.email,
+          message:    formData.message,
+          to_email:   'colerm17@gmail.com',
+        },
+        '-mtb4mwaA4yC6Au-3'
+      );
       setSubmitStatus('success');
       setFormData({ name: '', email: '', message: '' });
-    } catch (error) {
-      console.error('Error sending email:', error);
+    } catch (err) {
+      console.error('EmailJS error:', err);
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
@@ -49,90 +39,84 @@ const Contact = () => {
   };
 
   return (
-    <section className="contact">
+    <section className="contact" id="contact">
       <div className="container">
-        <h2>Get In Touch</h2>
-        <div className="contact-content">
+        <div className="section-header">
+          <span className="section-eyebrow">Contact</span>
+          <h2>Get In Touch</h2>
+        </div>
+
+        <div className="contact-grid">
+          {/* Info */}
           <div className="contact-info">
             <h3>Let's Connect</h3>
             <p>
-              I'm always interested in new opportunities and exciting projects. 
-              Whether you have a question or just want to say hi, feel free to reach out!
+              I'm always open to new opportunities, interesting projects, or just a friendly hello.
             </p>
-            <div className="contact-details">
-              <div className="contact-item">
-                <strong>Email:</strong>
+            <ul className="contact-list">
+              <li>
+                <span className="contact-list__label">Email</span>
                 <a href="mailto:colerm17@gmail.com">colerm17@gmail.com</a>
-              </div>
-              <div className="contact-item">
-                <strong>LinkedIn:</strong>
+              </li>
+              <li>
+                <span className="contact-list__label">LinkedIn</span>
                 <a href="https://linkedin.com/in/colemlostek" target="_blank" rel="noopener noreferrer">
                   linkedin.com/in/colemlostek
                 </a>
-              </div>
-              <div className="contact-item">
-                <strong>GitHub:</strong>
+              </li>
+              <li>
+                <span className="contact-list__label">GitHub</span>
                 <a href="https://github.com/cmlostek" target="_blank" rel="noopener noreferrer">
                   github.com/cmlostek
                 </a>
-              </div>
-            </div>
+              </li>
+            </ul>
           </div>
-          
+
+          {/* Form */}
           <form className="contact-form" onSubmit={handleSubmit}>
             {submitStatus === 'success' && (
-              <div className="status-message success">
-                ✅ Thank you! Your message has been sent successfully.
+              <div className="status-msg status-msg--success">
+                Message sent — thanks for reaching out!
               </div>
             )}
             {submitStatus === 'error' && (
-              <div className="status-message error">
-                ❌ Sorry, there was an error sending your message. Please try again or contact me directly at colerm17@gmail.com
+              <div className="status-msg status-msg--error">
+                Something went wrong. Please email me directly at{' '}
+                <a href="mailto:colerm17@gmail.com">colerm17@gmail.com</a>.
               </div>
             )}
-            
+
             <div className="form-group">
               <label htmlFor="name">Name</label>
               <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-                disabled={isSubmitting}
+                type="text" id="name" name="name"
+                value={formData.name} onChange={handleChange}
+                required disabled={isSubmitting}
+                placeholder="Your name"
               />
             </div>
             <div className="form-group">
               <label htmlFor="email">Email</label>
               <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                disabled={isSubmitting}
+                type="email" id="email" name="email"
+                value={formData.email} onChange={handleChange}
+                required disabled={isSubmitting}
+                placeholder="your@email.com"
               />
             </div>
             <div className="form-group">
               <label htmlFor="message">Message</label>
               <textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                rows="5"
-                required
-                disabled={isSubmitting}
-              ></textarea>
+                id="message" name="message"
+                value={formData.message} onChange={handleChange}
+                rows="5" required disabled={isSubmitting}
+                placeholder="What's on your mind?"
+              />
             </div>
-            <button 
-              type="submit" 
-              className="submit-btn" 
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? 'Sending...' : 'Send Message'}
+
+            <button type="submit" className="submit-btn" disabled={isSubmitting}>
+              {isSubmitting ? 'Sending…' : 'Send Message'}
             </button>
           </form>
         </div>

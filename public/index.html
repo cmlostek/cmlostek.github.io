@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cole Mlostek - Personal Website</title>
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="%PUBLIC_URL%/cm_logo.png" type="image/png">
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/cm_logo.png">
     <meta name="description" content="Personal website of Cole Mlostek, Master's student in Computer Science at UNC Charlotte">
     <meta property="og:url" content="https://yourdomain.com">
     <meta property="og:type" content="website">
@@ -15,6 +16,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Prevent flash of wrong theme on load -->
+    <script>
+      (function() {
+        try {
+          var p = localStorage.getItem('theme-pref');
+          var t = p === 'light' ? 'light'
+                : p === 'dark'  ? 'dark'
+                : (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+          document.documentElement.setAttribute('data-theme', t);
+        } catch(e) {}
+      })();
+    </script>
     <div id="root"></div>
 </body>
 </html>

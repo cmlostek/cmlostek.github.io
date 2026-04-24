@@ -1,35 +1,134 @@
-/* About Section Styles */
+/* ===== About Section ===== */
 .about {
-  padding-top: 120px; /* Account for fixed header */
+  position: relative;
+  overflow: hidden;
+  background: var(--ocean-mid);
+  padding: 100px 0 80px;
 }
 
-.about-content {
+/* ─────────────────────────────────────────────
+   Sea creature decorations
+───────────────────────────────────────────── */
+.ocean-creatures {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Base creature */
+.creature {
+  position: absolute;
+  color: var(--seafoam);
+}
+
+/* ── Fish ── */
+.fish--1 {
+  width: 90px;
+  top: 12%;
+  left: -2%;
+  opacity: 0.09;
+  animation: sway 14s ease-in-out infinite;
+}
+
+.fish--2 {
+  width: 70px;
+  top: 58%;
+  right: -1%;
+  opacity: 0.08;
+  animation: sway 18s ease-in-out -5s infinite;
+}
+
+.fish--3 {
+  width: 52px;
+  top: 78%;
+  left: 42%;
+  opacity: 0.07;
+  animation: sway 22s ease-in-out -9s infinite;
+}
+
+/* ── Jellyfish ── */
+.jellyfish--1 {
+  width: 64px;
+  top: 18%;
+  left: 72%;
+  opacity: 0.10;
+  animation: drift 10s ease-in-out infinite;
+}
+
+.jellyfish--2 {
+  width: 48px;
+  top: 62%;
+  left: 18%;
+  opacity: 0.08;
+  animation: drift 14s ease-in-out -4s infinite;
+}
+
+/* ── Whale ── */
+.whale--1 {
+  width: 220px;
+  top: 40%;
+  left: -6%;
+  opacity: 0.05;
+  animation: sway 30s ease-in-out -12s infinite;
+}
+
+/* ── Animations ── */
+@keyframes sway {
+  0%,  100% { transform: translateX(0)    translateY(0); }
+  25%        { transform: translateX(14px) translateY(-10px); }
+  50%        { transform: translateX(5px)  translateY(6px); }
+  75%        { transform: translateX(-8px) translateY(-4px); }
+}
+
+@keyframes drift {
+  0%,  100% { transform: translateY(0)    rotate(-3deg); }
+  50%        { transform: translateY(-22px) rotate(3deg); }
+}
+
+/* ─────────────────────────────────────────────
+   Content
+───────────────────────────────────────────── */
+.about > .container {
+  position: relative;
+  z-index: 1;
+}
+
+.about-grid {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  gap: 4rem;
+  gap: 5rem;
   align-items: center;
 }
 
 .about-text h2 {
-  color: #333;
+  font-size: 2.2rem;
+  color: var(--text-primary);
   margin-bottom: 1.5rem;
 }
 
 .about-text p {
-  font-size: 1.1rem;
-  line-height: 1.7;
-  margin-bottom: 1.5rem;
-  color: #666;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--text-muted);
+  margin-bottom: 1.2rem;
 }
 
+.about-text em {
+  color: var(--mist);
+  font-style: normal;
+}
+
+/* ── Skills ── */
 .skills {
   margin-top: 2rem;
 }
 
 .skills h3 {
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 1rem;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
 }
 
 .skills-grid {
@@ -39,80 +138,89 @@
 }
 
 .skill-tag {
-  background-color: #678aaf;
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-size: 0.9rem;
+  background: rgba(26, 95, 216, 0.12);
+  color: var(--seafoam);
+  border: 1px solid var(--glass-border);
+  padding: 0.4rem 1rem;
+  border-radius: 50px;
+  font-size: 0.85rem;
   font-weight: 500;
-  transition: transform 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
 .skill-tag:hover {
+  background: rgba(26, 95, 216, 0.25);
   transform: translateY(-2px);
 }
 
+/* ── Profile image ── */
 .about-image {
   display: flex;
   justify-content: center;
-  align-items: center;
-}
-
-.image-placeholder {
-  width: 300px;
-  height: 300px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 1.1rem;
-  font-weight: 500;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .profile-image {
-  width: 300px;
-  height: 300px;
+  width: 280px;
+  height: 280px;
   border-radius: 50%;
   object-fit: cover;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  border: 3px solid var(--seafoam);
+  box-shadow: 0 0 40px rgba(26, 95, 216, 0.3), var(--shadow);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
 .profile-image:hover {
-  transform: scale(1.05);
+  transform: scale(1.04);
+  box-shadow: 0 0 60px rgba(26, 95, 216, 0.45), var(--shadow);
 }
 
-/* Mobile Styles */
-@media (max-width: 768px) {
-  .about-content {
+/* ─────────────────────────────────────────────
+   Mobile
+───────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .about-grid {
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: 3rem;
     text-align: center;
   }
-  
-  .about-text {
-    order: 2;
-  }
-  
-  .about-image {
-    order: 1;
-  }
-  
-  .image-placeholder {
-    width: 200px;
-    height: 200px;
-    font-size: 0.9rem;
-  }
-  
-  .profile-image {
-    width: 200px;
-    height: 200px;
-  }
-  
-  .skills-grid {
-    justify-content: center;
-  }
+
+  .about-image { order: -1; }
+  .skills-grid { justify-content: center; }
+
+  /* Scale back creature sizes on smaller screens */
+  .fish--1   { width: 60px; }
+  .whale--1  { width: 140px; }
+}
+
+@media (max-width: 480px) {
+  .about { padding: 80px 0 60px; }
+  .profile-image { width: 200px; height: 200px; }
+  .ocean-creatures { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .creature { animation: none !important; }
+}
+
+/* ===== Light mode ===== */
+[data-theme="light"] .about-text em {
+  color: var(--seafoam);
+}
+
+[data-theme="light"] .skill-tag {
+  background: rgba(20, 72, 192, 0.08);
+  border-color: rgba(20, 72, 192, 0.2);
+}
+
+[data-theme="light"] .skill-tag:hover {
+  background: rgba(20, 72, 192, 0.16);
+}
+
+[data-theme="light"] .profile-image {
+  border-color: var(--seafoam);
+  box-shadow: 0 0 40px rgba(20, 72, 192, 0.25), var(--shadow);
+}
+
+[data-theme="light"] .profile-image:hover {
+  box-shadow: 0 0 60px rgba(20, 72, 192, 0.35), var(--shadow);
 }

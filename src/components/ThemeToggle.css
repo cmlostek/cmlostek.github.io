@@ -1,0 +1,47 @@
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--seafoam);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.38rem 0.85rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
+  letter-spacing: 0.04em;
+  font-family: inherit;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.theme-toggle:hover {
+  background: rgba(26, 95, 216, 0.18);
+  border-color: var(--seafoam);
+  box-shadow: 0 0 12px rgba(26, 95, 216, 0.2);
+}
+
+.theme-toggle__icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.theme-toggle__label {
+  font-size: 0.78rem;
+}
+
+/* Light mode: override bg/border so toggle reads correctly on light bg */
+[data-theme="light"] .theme-toggle:hover {
+  background: rgba(20, 72, 192, 0.1);
+}
+
+@media (max-width: 480px) {
+  .theme-toggle__label {
+    display: none;
+  }
+  .theme-toggle {
+    padding: 0.38rem 0.6rem;
+  }
+}

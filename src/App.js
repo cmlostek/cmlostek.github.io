@@ -1,31 +1,27 @@
 import React from 'react';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
+import { ThemeProvider } from './context/ThemeContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import HomePage from './pages/HomePage';
-import AboutPage from './pages/AboutPage';
-import ProjectsPage from './pages/ProjectsPage';
-import ContactPage from './pages/ContactPage';
-import NotFoundPage from './pages/NotFoundPage';
+import Home from './components/Home';
+import About from './components/About';
+import Projects from './components/Projects';
+import Contact from './components/Contact';
 
 function App() {
   return (
-    <Router>
+    <ThemeProvider>
       <div className="App">
         <Header />
         <main>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/projects" element={<ProjectsPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
+          <Home />
+          <About />
+          <Projects />
+          <Contact />
         </main>
         <Footer />
       </div>
-    </Router>
+    </ThemeProvider>
   );
 }
 

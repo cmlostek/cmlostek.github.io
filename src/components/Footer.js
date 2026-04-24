@@ -1,95 +1,154 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import './Footer.css';
 
-const VIDEO_ID = process.env.REACT_APP_MUSIC_VIDEO_ID || 'REPLACE_WITH_VIDEO_ID';
+/* ─── Ocean Ambience ────────────────────────────────────────────────────────
+   Layers:
+     1. Low sine drone (55 Hz / A1) – deep ocean hum
+     2. Pink-ish noise filtered to ~300 Hz – ocean wash
+     3. Slow LFO (0.08 Hz) modulating the filter frequency by ±180 Hz – wave motion
+   Master gain: ~0.12 (very quiet)
+──────────────────────────────────────────────────────────────────────────── */
+function buildOceanGraph(ctx) {
+  const master = ctx.createGain();
+  master.gain.setValueAtTime(0.12, ctx.currentTime);
+  master.connect(ctx.destination);
 
-function postPlayerCommand(iframeEl, func, args = []) {
-  if (!iframeEl || !iframeEl.contentWindow) return;
-  const message = JSON.stringify({ event: 'command', func, args });
-  iframeEl.contentWindow.postMessage(message, '*');
+  // 1. Drone
+  const drone = ctx.createOscillator();
+  drone.type = 'sine';
+  drone.frequency.value = 55;
+  const droneGain = ctx.createGain();
+  droneGain.gain.value = 0.35;
+  drone.connect(droneGain);
+  droneGain.connect(master);
+  drone.start();
+
+  // 2. Noise source
+  const bufLen = 2 * ctx.sampleRate;
+  const buf = ctx.createBuffer(1, bufLen, ctx.sampleRate);
+  const data = buf.getChannelData(0);
+  let b0 = 0, b1 = 0, b2 = 0;
+  for (let i = 0; i < bufLen; i++) {
+    const white = Math.random() * 2 - 1;
+    // Simple pink-ish filter
+    b0 = 0.99886 * b0 + white * 0.0555179;
+    b1 = 0.99332 * b1 + white * 0.0750759;
+    b2 = 0.96900 * b2 + white * 0.1538520;
+    data[i] = (b0 + b1 + b2 + white * 0.5362) * 0.11;
+  }
+  const noise = ctx.createBufferSource();
+  noise.buffer = buf;
+  noise.loop = true;
+
+  // 3. Low-pass filter (ocean wash)
+  const filter = ctx.createBiquadFilter();
+  filter.type = 'lowpass';
+  filter.frequency.value = 300;
+  filter.Q.value = 0.8;
+
+  const noiseGain = ctx.createGain();
+  noiseGain.gain.value = 0.6;
+
+  noise.connect(filter);
+  filter.connect(noiseGain);
+  noiseGain.connect(master);
+  noise.start();
+
+  // 4. LFO → filter frequency modulation (wave motion)
+  const lfo = ctx.createOscillator();
+  lfo.type = 'sine';
+  lfo.frequency.value = 0.08;
+  const lfoGain = ctx.createGain();
+  lfoGain.gain.value = 180;
+  lfo.connect(lfoGain);
+  lfoGain.connect(filter.frequency);
+  lfo.start();
+
+  return { master, nodes: [drone, noise, lfo] };
 }
 
 export default function Footer() {
-  const iframeRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [userStopped, setUserStopped] = useState(false);
+  const ctxRef    = useRef(null);
+  const graphRef  = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [supported, setSupported] = useState(true);
 
   useEffect(() => {
-    const iframe = iframeRef.current;
-    if (!iframe) return;
+    if (typeof window === 'undefined') return;
+    if (!window.AudioContext && !window.webkitAudioContext) {
+      setSupported(false);
+    }
+  }, []);
 
-    // Ensure we send the setVolume command a bit after mount to increase success rate
-    const initTimeout = setTimeout(() => {
-      // Set volume to ~50%
-      postPlayerCommand(iframe, 'setVolume', [50]);
-      // Try to start playback (muted autoplay is allowed by browsers)
-      postPlayerCommand(iframe, 'playVideo');
-    }, 500);
+  const startAudio = useCallback(() => {
+    if (ctxRef.current) {
+      // Resume if suspended (e.g. after pause)
+      if (ctxRef.current.state === 'suspended') {
+        ctxRef.current.resume();
+      }
+      return;
+    }
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    const ctx = new AudioCtx();
+    ctxRef.current = ctx;
+    graphRef.current = buildOceanGraph(ctx);
+  }, []);
 
-    // Auto-unmute on first user gesture unless the user explicitly stopped playback
-    const onFirstGesture = () => {
-      if (userStopped) return;
-      // set volume again to be safe, then unmute
-      postPlayerCommand(iframe, 'setVolume', [50]);
-      postPlayerCommand(iframe, 'unMute');
-      setIsPlaying(true);
-      window.removeEventListener('click', onFirstGesture, { capture: true });
-      window.removeEventListener('keydown', onFirstGesture, { capture: true });
-      window.removeEventListener('touchstart', onFirstGesture, { capture: true });
-    };
-    window.addEventListener('click', onFirstGesture, { capture: true });
-    window.addEventListener('keydown', onFirstGesture, { capture: true });
-    window.addEventListener('touchstart', onFirstGesture, { capture: true });
-
-    return () => {
-      clearTimeout(initTimeout);
-      window.removeEventListener('click', onFirstGesture, { capture: true });
-      window.removeEventListener('keydown', onFirstGesture, { capture: true });
-      window.removeEventListener('touchstart', onFirstGesture, { capture: true });
-    };
-  }, [userStopped]);
+  const stopAudio = useCallback(() => {
+    if (ctxRef.current && ctxRef.current.state === 'running') {
+      ctxRef.current.suspend();
+    }
+  }, []);
 
   const handleToggle = () => {
-    const iframe = iframeRef.current;
-    if (!iframe) return;
     if (isPlaying) {
-      postPlayerCommand(iframe, 'pauseVideo');
-      setUserStopped(true);
+      stopAudio();
       setIsPlaying(false);
     } else {
-      // user action: unmute and play at 50%
-      postPlayerCommand(iframe, 'setVolume', []);
-      postPlayerCommand(iframe, 'unMute');
-      postPlayerCommand(iframe, 'playVideo');
-      setUserStopped(false);
+      startAudio();
       setIsPlaying(true);
     }
   };
 
-  // iframe src: enablejsapi=1 for postMessage control, autoplay=1 & mute=1 so autoplay works,
-  // loop=1 & playlist=<id> for looping. origin helps with some browsers.
-  const origin = typeof window !== 'undefined' ? window.location.origin : '';
-  const src = `https://www.youtube.com/embed/${VIDEO_ID}?enablejsapi=1&autoplay=1&mute=1&loop=1&playlist=${VIDEO_ID}&origin=${encodeURIComponent(origin)}`;
+  // Clean up on unmount
+  useEffect(() => {
+    return () => {
+      if (ctxRef.current) {
+        graphRef.current?.nodes.forEach(n => { try { n.stop(); } catch (_) {} });
+        ctxRef.current.close();
+      }
+    };
+  }, []);
+
+  const year = new Date().getFullYear();
 
   return (
     <footer className="site-footer">
-      <div className="footer-controls">
-        <button className="music-toggle" onClick={handleToggle}>
-          {isPlaying ? 'Stop Music' : 'Play Music'}
-        </button>
-        <small className="music-note">Music volume preset to ~50%</small>
-      </div>
+      <div className="footer-inner">
+        <div className="footer-music">
+          {supported ? (
+            <>
+              <button
+                className={`music-btn${isPlaying ? ' music-btn--playing' : ''}`}
+                onClick={handleToggle}
+                aria-label={isPlaying ? 'Pause ambient music' : 'Play ambient ocean music'}
+              >
+                <span className="music-btn__icon" aria-hidden="true">
+                  {isPlaying ? '▐▐' : '▶'}
+                </span>
+                {isPlaying ? 'Pause Ocean' : 'Play Ocean'}
+              </button>
+              <span className="music-hint">ambient · very low volume</span>
+            </>
+          ) : (
+            <span className="music-hint">Web Audio not supported in this browser</span>
+          )}
+        </div>
 
-      {/* Hidden iframe controlled via postMessage */}
-      <iframe
-        ref={iframeRef}
-        title="site-music-player"
-        src={src}
-        className="hidden-music-iframe"
-        frameBorder="0"
-        allow="autoplay; encrypted-media"
-        allowFullScreen
-      />
+        <p className="footer-copy">
+          &copy; {year} Cole Mlostek
+        </p>
+      </div>
     </footer>
   );
 }

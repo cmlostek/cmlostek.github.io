@@ -1,45 +1,76 @@
 import React from 'react';
 import './About.css';
+import { FishSvg, JellyfishSvg, WhaleSvg } from './SeaCreatures';
 
 const About = () => {
+  const skills = [
+    'Python', 'HTML / CSS', 'JavaScript', 'React',
+    'Java', 'R', 'SQL', 'Bash',
+    'Git', 'Linux', 'HPC Clusters', 'BLAST',
+  ];
+
   return (
-    <section className="about">
+    <section className="about" id="about">
+
+      {/* ── Decorative sea creatures ── */}
+      <div className="ocean-creatures" aria-hidden="true">
+        <div className="creature fish fish--1">
+          <FishSvg />
+        </div>
+        <div className="creature fish fish--2">
+          <FishSvg flipped />
+        </div>
+        <div className="creature fish fish--3">
+          <FishSvg />
+        </div>
+        <div className="creature jellyfish jellyfish--1">
+          <JellyfishSvg />
+        </div>
+        <div className="creature jellyfish jellyfish--2">
+          <JellyfishSvg />
+        </div>
+        <div className="creature whale whale--1">
+          <WhaleSvg />
+        </div>
+      </div>
+
+      {/* ── Main content ── */}
       <div className="container">
-        <div className="about-content">
+        <div className="about-grid">
           <div className="about-text">
-            <h2>About Me</h2>
+            <span className="section-eyebrow">About Me</span>
+            <h2>Hey, I'm Cole</h2>
             <p>
-              Hello! I'm Cole Mlostek, a graduate of the University of North Carolina at Charlotte. I received my Bachelor's degree in Computer Science in May 2025 with a concentration in Bioinformatics.
-              I am currently also a Master's student in Computer Science at the University of North Carolina at Charlotte. I am interested in software development, machine learning, and bioinformatics.
-              I also do research in the field of bioinformatics, specifically in the area of genomics, by looking at the Melanocorotin 1 receptor gene and its role in the pigmentation of Chiroptera coat colors. 
-              This research is overseen and mentored by Dr. Laurel Yohe, a professor in the Department of Bioinformatics and Genomics.
+              I'm a Computer Science graduate of the University of North Carolina at Charlotte
+              (B.S., May 2025, Bioinformatics concentration) and currently pursuing my Master's
+              in Computer Science at UNCC. My interests span software development, machine
+              learning, and bioinformatics.
             </p>
             <p>
-              When I'm not coding, you can find me exploring new technologies, contributing 
-              to open source projects, or enjoying the great outdoors. I also enjoy playing video games, reading, and spending time with my family and friends.
+              My current research focuses on the <em>MC1R</em> gene and its role in the
+              pigmentation of <em>Chiroptera</em> (bat) coat colors, mentored by
+              Dr. Laurel Yohe in the Department of Bioinformatics and Genomics.
             </p>
+            <p>
+              Outside of work I enjoy exploring new technologies, open source, the great
+              outdoors, video games, and spending time with family and friends.
+            </p>
+
             <div className="skills">
-              <h3>Skills & Technologies</h3>
+              <h3>Skills &amp; Technologies</h3>
               <div className="skills-grid">
-                <span className="skill-tag">Python</span>
-                <span className="skill-tag">HTML/CSS</span>
-                <span className="skill-tag">Git</span>
-                <span className="skill-tag">SQL</span>
-                <span className="skill-tag">R</span>
-                <span className="skill-tag">Java</span>
-                <span className="skill-tag">Bash</span>
-                <span className="skill-tag">HPC Cluster Resources</span>
-                <span className="skill-tag">Linux</span>
+                {skills.map(skill => (
+                  <span key={skill} className="skill-tag">{skill}</span>
+                ))}
               </div>
             </div>
           </div>
+
           <div className="about-image">
-              <img 
-                src="/pfp.jpeg" 
-                alt="Cole Mlostek" 
-                className="profile-image"
-                onLoad={() => console.log('Image loaded successfully')}
-                onError={(e) => console.log('Image failed to load:', e)}
+            <img
+              src="/pfp.jpeg"
+              alt="Cole Mlostek"
+              className="profile-image"
             />
           </div>
         </div>
