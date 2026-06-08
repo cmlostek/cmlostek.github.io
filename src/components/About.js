@@ -53,7 +53,10 @@ const About = () => {
             </p>
             <p>
               Outside of work I enjoy exploring new technologies, open source, the great
-              outdoors, video games, and spending time with family and friends.
+              outdoors, video games, and spending time with family and friends. Additionally I volunteer for <italics>FIRST</italics> robotics in North Carolina. 
+              I volunteer in a couple different roles, including Head Refereeing and Refereeing, Lead Robot Inspector, and Field Supervisor. These roles require strong technical and leadership skills
+              and a knowledge of both the construction rules and the field side rules. In the role of Head Referee I am expected to maintain the field and the rules of play, as well as the referee crew and the students experience in competition.
+              I enjoy this because it allows me to both give back to the community as well as nerd out with other people in the <italics>FIRST</italics> community. 
             </p>
 
             <div className="skills">
